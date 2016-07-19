@@ -1,4 +1,4 @@
-function [Residus,lambda,D,CL_beta,Cv,c,Df] = statique_input_vitesse(m,LCG,VCG,b,beta,v,a,f,epsilon,tau)
+function [Residus,lambda,D,CL_beta,Cv,c,Df] = statique_input_vitesse(v,tau)
 global g
 global rho
 %%%% Planing coefficients

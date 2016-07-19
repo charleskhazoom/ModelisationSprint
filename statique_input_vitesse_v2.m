@@ -1,6 +1,7 @@
-function [Residus,lambda,D,CL_beta,Cv,c,Df] = statique_input_vitesse_v2(m,LCG,VCG,b,beta,v,a,f,epsilon,tau)
+function [Residus,lambda,D,CL_beta,Cv,c,Df] = statique_input_vitesse_v2(v,tau)
 global g
 global rho
+global m L LCG VCG b beta a f epsilon
 %%%% Planing coefficients
 Cv = v/sqrt(g*b);
 CL_beta = m*g/(0.5*rho*v^2*b^2);% lift coefficient pour un angle beta.

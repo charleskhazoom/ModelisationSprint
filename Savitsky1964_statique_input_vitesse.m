@@ -14,12 +14,10 @@ v = 22.2633;%50*1.6/3.6;%40*0.514444; % m/s (1 noeud = 0.514444 m/s); vitesse d'
 % % a = 1.39*12*2.54/100;
 % f = 0.1;%0.5*12*2.54/100;
 % epsilon = 0; % degrés
-geodata = hullgeometry; % load hull geometry
-[m,L,LCG,VCG,b,beta,a,f,epsilon] = unwrap_geodata(geodata);
-
-
-
-
+%% Ajouter les variables globales
+GlobalHullGeometry; % load hull geometry
+global m L LCG VCG b beta a f epsilon
+% [m,L,LCG,VCG,b,beta,a,f,epsilon] = unwrap_geodata(geodata);
 global g
 g= 9.81;% m/s2, accélération gravitationnelle
 global rho
@@ -39,7 +37,7 @@ if strcmp(methode,'biss')
 elseif strcmp(methode,'it')
     Residus = zeros(size(tau));
     for ii = 1:length(tau)
-        [Residus(ii),lambda(ii),D(ii),CL_beta,Cv,c(ii),Df(ii)] =  statique_input_vitesse_v2(m,LCG,VCG,b,beta,v,a,f,epsilon,tau(ii));
+        [Residus(ii),lambda(ii),D(ii),CL_beta,Cv,c(ii),Df(ii)] =  statique_input_vitesse_v2(v,tau(ii));
     end
 end
 %%
@@ -48,7 +46,7 @@ y{1} = @(tau0,c,Df) m*g*((1-sind(tau0)*sind(tau0+epsilon))*c/cosd(tau0)-f*sind(t
 y{2} = @statique_input_vitesse_v2;
 A = tau(1);
 B = tau(end);
-racine_bissection = bissection_fcn(A,B,y,0.001,geodata,v);
+racine_bissection = bissection_fcn(A,B,y,0.001,v);
 tau_e = racine_bissection;
 end
 %% Solution pour laquelle eq35 = 0
@@ -60,7 +58,7 @@ lambda_e = interp1(tau,lambda,tau_e); % lambda à l'équilibre
 D_e = interp1(tau,D,tau_e);% Drag horizonal D à l'équilibre
 P = D_e*v; % Puissance à l'état d'équilibre
 
-[r,l,d] = statique_input_vitesse(m,LCG,VCG,b,beta,v,a,f,epsilon,tau_e);
+[r,l,d] = statique_input_vitesse(v,tau_e);
 end
 %% Porpoising Stability
 
