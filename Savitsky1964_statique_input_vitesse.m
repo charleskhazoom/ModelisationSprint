@@ -46,7 +46,7 @@ y{1} = @(tau0,c,Df) m*g*((1-sind(tau0)*sind(tau0+epsilon))*c/cosd(tau0)-f*sind(t
 y{2} = @statique_input_vitesse_v2;
 A = tau(1);
 B = tau(end);
-racine_bissection = bissection_fcn(A,B,y,0.001,v);
+racine_bissection = bissection_fcn(A,B,y,0.01,v);
 tau_e = racine_bissection;
 end
 %% Solution pour laquelle eq35 = 0
