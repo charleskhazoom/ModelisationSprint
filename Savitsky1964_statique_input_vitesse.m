@@ -2,7 +2,6 @@
 % Selon Savitsky 1964
 % Par Charles Khazoom
 clear;close all;clc
-tic
 %% Données
 v = 22.2633;%50*1.6/3.6;%40*0.514444; % m/s (1 noeud = 0.514444 m/s); vitesse d'avance du bateau
 %% Ajouter les variables globales
@@ -17,10 +16,8 @@ rho = 1000; % kg/m3; eau douce = 1000; eau salée = 1025
 % CL_beta = m*g/(0.5*rho*v^2*b^2);% lift coefficient pour un angle beta.
 % Déjà calculés dans la fonction statique_input_vitesse_v2
 %% Calculs
-
 tau = [1 12]; % Fenêtre pour la méthode de la bissection.
-tau_e = bissection_fcn(tau(1),tau(end),@statique_input_vitesse,0.01,v);
-toc
+[tau_e,D_e] = bissection_fcn_v_input(tau(1),tau(end),@statique_input_vitesse,0.01,v);
 %% Porpoising Stability
 
 % CL_beta
