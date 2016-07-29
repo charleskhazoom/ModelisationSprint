@@ -1,7 +1,20 @@
-function [Residus,lambda,D,CL_beta,Cv,c,Df] = statique_input_vitesse(v,tau)
-global g
-global rho
-global m L LCG VCG b beta a f epsilon
+function [Residus,lambda,D,CL_beta,Cv,c,Df] = statique_input_vitesse(v,tau,CstData)
+% global g
+% global rho
+% global m L LCG VCG b beta a f epsilon
+%%
+m = CstData.geometry.m;
+L = CstData.geometry.L;
+LCG = CstData.geometry.LCG;
+VCG = CstData.geometry.VCG;
+b = CstData.geometry.b;
+beta = CstData.geometry.beta;
+a = CstData.geometry.a;
+f = CstData.geometry.f;
+epsilon = CstData.geometry.epsilon;
+g = CstData.physics.g;
+rho = CstData.physics.rho;
+%%
 %%%% Planing coefficients
 Cv = v/sqrt(g*b);
 CL_beta = m*g/(0.5*rho*v^2*b^2);% lift coefficient pour un angle beta.
@@ -21,7 +34,7 @@ end
 
 %%%% Calcul de lambda
 r = roots([0.0055/Cv/Cv,0,0,0,0.0120,-CL_0/(tau^1.1)]); % = sqrt(lambda), voir équation 1 surlignée en jaune, p.71 de mon logbook1
-lambda = r((imag(r)==0))^2; 
+lambda = r((imag(r)==0))^2;
 
 if length(lambda)>1
     error('Calcul lambda : Attention, plus d''une racine réelle a été trouvée')
@@ -36,7 +49,7 @@ vm = v*sqrt(1 - (0.0120*sqrt(lambda)*tau^1.1 -...
 %%%% Calcul nombre de Reynolds Re
 
 % nu = 1.007e-6; % viscosité cinématique (m2/s) , eau à 20degrésC
-% %source wiki : https://fr.wikipedia.org/wiki/Viscosit%C3%A9_cin%C3%A9matique 
+% %source wiki : https://fr.wikipedia.org/wiki/Viscosit%C3%A9_cin%C3%A9matique
 nu = 0.9293091e-06; % valeur utilisée par Savitsky.
 Re = vm*lambda*b/nu;
 
